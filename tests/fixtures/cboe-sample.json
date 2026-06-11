@@ -1,0 +1,15 @@
+{
+  "data": {
+    "symbol": "SPY",
+    "current_price": 600.0,
+    "options": [
+      { "option": "SPY260619C00610000", "gamma": 0.02, "iv": 0.18, "open_interest": 1000, "volume": 200, "bid": 1.0, "ask": 1.2 },
+      { "option": "SPY260619P00590000", "gamma": 0.015, "iv": 0.22, "open_interest": 2000, "volume": 500, "bid": 0.8, "ask": 0.9 },
+      { "option": "SPY260619C00600000", "gamma": 0.03, "iv": 0.19, "open_interest": 500, "volume": 100, "bid": 2.0, "ask": 2.2 },
+      { "option": "SPY270115C00600000", "gamma": 0.01, "iv": 0.2, "open_interest": 900, "volume": 10, "bid": 5.0, "ask": 5.5 },
+      { "option": "SPY260619C00900000", "gamma": 0.001, "iv": 0.4, "open_interest": 50, "volume": 0, "bid": 0.01, "ask": 0.02 },
+      { "option": "BADSYMBOL", "gamma": 0.01, "iv": 0.2, "open_interest": 10, "volume": 0, "bid": 0, "ask": 0 }
+    ]
+  },
+  "timestamp": "2026-06-10 15:45:00"
+}
