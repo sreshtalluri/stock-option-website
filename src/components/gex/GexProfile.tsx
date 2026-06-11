@@ -3,13 +3,18 @@ import type { GexProfile as Profile } from '@/lib/types';
 import { fmtMoney } from '@/lib/format';
 
 export function GexProfileChart({ profile }: { profile: Profile }) {
-  const rows = [...profile.byStrike].sort((a, b) => b.strike - a.strike);
-  if (!rows.length) return <p className="text-xs text-muted">No strikes in range.</p>;
-  const max = Math.max(1, ...rows.map(r => Math.abs(r.netGex)));
+  const all = [...profile.byStrike].sort((a, b) => b.strike - a.strike);
+  if (!all.length) return <p className="text-xs text-muted">No strikes in range.</p>;
+  const max = Math.max(1, ...all.map(r => Math.abs(r.netGex)));
   const nearest = (target: number | null) =>
-    target === null ? null : rows.reduce((best, r) => Math.abs(r.strike - target) < Math.abs(best.strike - target) ? r : best, rows[0]).strike;
+    target === null ? null : all.reduce((best, r) => Math.abs(r.strike - target) < Math.abs(best.strike - target) ? r : best, all[0]).strike;
   const spotRow = nearest(profile.spot);
   const flipRow = nearest(profile.flipPoint);
+  // hide noise rows (<1% of max) but always keep spot, flip, and wall strikes
+  const rows = all.filter(r =>
+    Math.abs(r.netGex) >= max * 0.01 ||
+    r.strike === spotRow || r.strike === flipRow ||
+    r.strike === profile.callWall || r.strike === profile.putWall);
 
   return (
     <div className="space-y-px max-h-[520px] overflow-y-auto">
