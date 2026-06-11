@@ -68,6 +68,25 @@ export function unusualActivity(chain: OptionsChain): Insight[] {
     }));
 }
 
+export function econEventRisk(events: { title: string; date: string; impact: string }[], now: Date = new Date()): Insight | null {
+  const soon = events.filter(e => {
+    if (e.impact !== 'high') return false;
+    const dt = new Date(e.date).getTime() - now.getTime();
+    return dt > -3_600_000 && dt <= 24 * 3_600_000;
+  });
+  if (!soon.length) return null;
+  const names = soon.map(e => {
+    const t = new Date(e.date);
+    const when = t.toLocaleString('en-US', { timeZone: 'America/New_York', weekday: 'short', hour: 'numeric', minute: '2-digit' });
+    return `${e.title} (${when} ET)`;
+  }).join(', ');
+  return {
+    id: 'econ-risk', severity: 'watch', metric: 'econ',
+    title: `High-impact data within 24h: ${soon.length} event(s)`,
+    body: `${names}. Markets often go quiet before the release, then move sharply on the print — stops can get run in both directions. Avoid opening new positions minutes before, and expect IV to deflate after the number is out.`,
+  };
+}
+
 export function sectorSkew(sectors: { name: string; changePct: number }[]): Insight | null {
   if (sectors.length < 2) return null;
   const sorted = [...sectors].sort((a, b) => b.changePct - a.changePct);

@@ -51,6 +51,11 @@ export const GLOSSARY: Record<string, GlossaryEntry> = {
     short: 'How close a company is to its next earnings report.',
     why: 'IV inflates into earnings and crushes after. Holding long options through a report risks losing premium even when direction is right.',
   },
+  econ: {
+    term: 'Economic Calendar Risk',
+    short: 'Scheduled macro releases — CPI, jobs report (NFP), FOMC rate decisions, PPI, GDP — that hit at known times and move the whole market.',
+    why: 'High-impact prints cause sharp, fast repricing across indexes. Day traders flatten or size down into them; swing traders check the calendar before entering so a release doesn\'t land mid-trade.',
+  },
   sectors: {
     term: 'Sector Dispersion',
     short: 'How differently the 11 S&P sectors are performing today.',

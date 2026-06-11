@@ -14,7 +14,7 @@ Optional: copy `.env.example` to `.env.local` and add a free [Finnhub](https://f
 ## What's on screen
 
 - **Top strip** — SPY / QQQ / SPX / VIX / 10Y live quotes + the day's gamma regime badge, plus ticker search.
-- **Market view** — sector performance heat tiles, top gainers/losers/actives, upcoming watchlist earnings.
+- **Market view** — sector performance heat tiles, top gainers/losers/actives, **key market dates** (CPI, PPI, jobs report, FOMC — with forecast vs. previous), upcoming watchlist earnings.
 - **GEX view** — net gamma exposure by strike (with zero-gamma flip, call wall, put wall), strike×expiry heatmap, intraday GEX history.
 - **Ticker view** — realtime TradingView chart, analyst consensus + upgrades/downgrades, key stats, news, per-ticker GEX.
 - **Right rail** — always-on live news feed and plain-English insight cards.
@@ -25,6 +25,7 @@ Every metric has an ⓘ explainer — what it is, why it matters, how traders us
 ## Data sources
 
 - **CBOE delayed quotes** — options chains with greeks/OI (~15-min delayed) → GEX engine
+- **ForexFactory weekly feed + Fed's published FOMC schedule** — economic calendar (US releases, impact-rated)
 - **Yahoo Finance** — quotes, movers, sectors, news, analyst ratings, stats
 - **TradingView embeds** — charts (realtime if you're logged into TradingView)
 

@@ -17,3 +17,9 @@ export interface GexProfile {
 export interface NewsItem { id: string; title: string; source: string; url: string; publishedAt: string; symbols?: string[]; }
 export interface Insight { id: string; severity: 'info' | 'watch' | 'alert'; title: string; body: string; metric?: string; }
 export interface GexSnapshot { ts: number; symbol: string; totalGex: number; flip: number | null; spot: number; }
+export interface EconEvent {
+  id: string; title: string; date: string; // ISO with offset
+  impact: 'high' | 'medium' | 'low';
+  forecast?: string; previous?: string;
+  source: 'feed' | 'fomc-schedule';
+}

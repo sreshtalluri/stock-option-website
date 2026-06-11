@@ -2,6 +2,7 @@
 import { usePolling } from '@/hooks/usePolling';
 import type { QuoteLite } from '@/lib/types';
 import { Panel, PriceChange, Spinner, StaleBadge } from '@/components/ui';
+import { EconCalendar } from '@/components/EconCalendar';
 import { fmtNum } from '@/lib/format';
 
 interface Sector { symbol: string; name: string; changePct: number; }
@@ -64,6 +65,8 @@ export function MarketView({ onSelectTicker }: { onSelectTicker: (s: string) => 
           </div>
         )}
       </Panel>
+
+      <EconCalendar />
 
       <Panel title="Upcoming earnings (watchlist)">
         {earnings.loading ? <Spinner /> : earnings.data?.length ? (
