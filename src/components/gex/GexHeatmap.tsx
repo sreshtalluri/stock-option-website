@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { GexProfile } from '@/lib/types';
 import { InfoTip } from '@/components/ui';
 
@@ -44,6 +44,11 @@ const VEX_GUIDE = [
 export function GexHeatmap({ profile }: { profile: GexProfile }) {
   const [mode, setMode] = useState<Mode>('gex');
   const [showGuide, setShowGuide] = useState(false);
+  const spotRowRef = useRef<HTMLTableRowElement>(null);
+
+  useEffect(() => {
+    spotRowRef.current?.scrollIntoView({ block: 'center', behavior: 'instant' });
+  }, [profile.symbol, profile.spot, mode]);
 
   const hm = mode === 'gex' ? profile.heatmap : profile.vexHeatmap;
   const { expiries, strikes, values } = hm;
@@ -138,7 +143,7 @@ export function GexHeatmap({ profile }: { profile: GexProfile }) {
               const isCallWall = k === profile.callWall;
               const isPutWall = k === profile.putWall;
               return (
-                <tr key={k} className={isSpot ? 'bg-warn/10' : ''}>
+                <tr key={k} ref={isSpot ? spotRowRef : undefined} className={isSpot ? 'bg-warn/10' : ''}>
                   <td className={`text-right pr-2 py-1 border-b border-border/40 font-mono text-[10px] ${isSpot ? 'text-warn font-bold' : isCallWall ? 'text-up font-semibold' : isPutWall ? 'text-down font-semibold' : 'text-muted'}`}>
                     {k}
                     {isCallWall && <span className="ml-0.5">▲</span>}

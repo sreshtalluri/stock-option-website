@@ -1,8 +1,16 @@
 'use client';
+import { useEffect, useRef } from 'react';
 import type { GexProfile as Profile } from '@/lib/types';
 import { fmtMoney } from '@/lib/format';
 
 export function GexProfileChart({ profile }: { profile: Profile }) {
+  const spotRef = useRef<HTMLDivElement>(null);
+
+  // Scroll the spot row to the center of the container whenever the profile changes
+  useEffect(() => {
+    spotRef.current?.scrollIntoView({ block: 'center', behavior: 'instant' });
+  }, [profile.symbol, profile.spot]);
+
   const all = [...profile.byStrike].sort((a, b) => b.strike - a.strike);
   if (!all.length) return <p className="text-xs text-muted">No strikes in range.</p>;
   const max = Math.max(1, ...all.map(r => Math.abs(r.netGex)));
@@ -21,8 +29,10 @@ export function GexProfileChart({ profile }: { profile: Profile }) {
       {rows.map(r => {
         const pct = Math.abs(r.netGex) / max * 50; // % of half-width
         const pos = r.netGex >= 0;
+        const isSpot = r.strike === spotRow;
         return (
-          <div key={r.strike} className={`flex items-center gap-2 text-[11px] rounded-sm px-1 ${r.strike === spotRow ? 'bg-panel2 ring-1 ring-accent/40' : ''}`}>
+          <div key={r.strike} ref={isSpot ? spotRef : undefined}
+            className={`flex items-center gap-2 text-[11px] rounded-sm px-1 ${isSpot ? 'bg-panel2 ring-1 ring-accent/40' : ''}`}>
             <span className={`w-16 tabular text-right shrink-0 ${r.strike === profile.callWall ? 'text-up font-bold' : r.strike === profile.putWall ? 'text-down font-bold' : 'text-muted'}`}>
               {r.strike}
               {r.strike === profile.callWall ? ' ⊕' : r.strike === profile.putWall ? ' ⊖' : ''}
