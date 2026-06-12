@@ -53,10 +53,10 @@ export function GexView() {
           </Panel>
 
           {/* row 3: DEX + IV term structure */}
-          <Panel title={<>DEX — Dealer Delta Exposure<InfoTip metric="gex" /></>} className="xl:col-span-2">
+          <Panel title={<>DEX — Dealer Delta Exposure<InfoTip metric="dex" /></>} className="xl:col-span-2">
             <DexChart profile={profile} />
           </Panel>
-          <Panel title="IV Term Structure">
+          <Panel title={<>IV Term Structure<InfoTip metric="ivTerm" /></>}>
             <IvTermStructure profile={profile} />
           </Panel>
         </div>

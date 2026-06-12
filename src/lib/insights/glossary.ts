@@ -63,17 +63,27 @@ export const GLOSSARY: Record<string, GlossaryEntry> = {
   },
   vex: {
     term: 'VEX — Vanna Exposure',
-    short: "Dollar change in dealers' delta hedge for a 1-point move in implied volatility. Green = dealers buy when vol drops; purple = dealers sell when vol drops.",
-    why: "When VIX spikes, dealers must re-hedge their vanna exposure. A large negative VEX below spot means a vol-crush rip is loaded — the vol drop forces dealers to buy the underlying, pushing price up.",
+    short: "Dollar change in dealers' delta hedge for a 1-vol-point move in implied volatility. Green = dealers buy when vol drops (bullish); purple = dealers sell when vol drops (bearish). Empty cells = no open interest at that strike/expiry.",
+    why: "Most powerful around events like FOMC and CPI. If a big green VEX cluster sits above spot and vol is about to crush, dealers will buy the underlying → stock rips even on a 'meh' outcome. Purple dominant below spot after a vol spike = vol-crush selling pressure. VEX explains the classic 'sell the event, buy the crush' and vice versa.",
+  },
+  gexHeatmap: {
+    term: 'GEX Heatmap — How to Read It',
+    short: "Each cell is one strike × one expiry. Color = net dealer gamma in dollars. Green = dealers long gamma here (they sell into rallies, buy dips — stabilizing). Purple = dealers short gamma (they chase price — destabilizing). Empty dark cells = zero or near-zero open interest at that strike/expiry combo — no one owns options there, so it has no gravitational pull on price.",
+    why: "The NEAREST expiry column drives intraday behavior. Find the brightest green cell near spot in today's column — that strike is the likely pin target for the session. Brightest green ABOVE spot = call wall (natural resistance/ceiling). Brightest purple BELOW spot = put wall (floor, but if broken, a gap-down accelerates). As you move RIGHT across columns, you see longer-term structure. A strike with green across multiple expiries is a very sticky, high-conviction level.",
+  },
+  vexHeatmap: {
+    term: 'VEX Heatmap — How to Read It',
+    short: "Same layout as GEX but shows vanna (sensitivity to IV moves). Empty dark cells = zero OI there. Green cells = when vol drops, dealers must buy stock to re-hedge delta (bullish flow). Purple cells = when vol drops, dealers sell stock (bearish flow). Near-term columns dominate on event days.",
+    why: "Switch to VEX on FOMC/CPI/earnings days. Step 1: Find spot. Step 2: Look at the nearest expiry column. Step 3: If the dominant color above spot is green, a vol crush will be mechanically bullish. If dominant color below is purple, a vol crush will be bearish. This is why stocks sometimes rip after 'good enough' earnings — the VEX structure forces dealer buying as IV collapses.",
   },
   dex: {
     term: 'DEX — Dealer Delta Exposure',
-    short: "Net dealer delta (directional exposure) at each strike. Blue = dealers net long delta (will sell into rallies); orange = dealers net short delta (will buy dips).",
-    why: "Large dealer delta imbalances create mechanical buy/sell flows as price moves. It tells you where natural support and resistance exist from pure hedging mechanics, not sentiment.",
+    short: "Net directional exposure of dealer hedges at each strike. Blue bars = dealers net long delta (they will sell stock as price rises to stay neutral = overhead sell pressure). Orange bars = dealers net short delta (they will buy stock as price drops = natural support below).",
+    why: "DEX shows where mechanical buy and sell flows live — not based on sentiment, but pure hedging math. A cluster of orange bars just below spot = dealers will buy dips there, creating cushion. A cluster of blue bars above spot = dealers will sell into rallies, creating resistance. When price moves through a heavy DEX level, the flow reverses sharply — those are the levels where moves often pause or accelerate.",
   },
   ivTerm: {
-    term: 'IV Term Structure',
-    short: "ATM implied volatility plotted across expiry dates — showing whether near-term options are pricing more or less fear than longer-dated ones.",
-    why: "Backwardation (near IV > far IV) = stress, event risk, or earnings nearby. Contango (normal upward slope) = calm tape. A sudden shift to backwardation often precedes big moves.",
+    term: 'IV Term Structure — How to Read It',
+    short: "ATM implied volatility for each expiry date plotted as a line. Normal shape (contango) slopes gently upward — further out = slightly more IV. Backwardation means near-term IV is HIGHER than far-term — the market is pricing more fear for the near future than the long run.",
+    why: "Contango = calm tape, normal conditions. Trade spreads and collect premium normally. Backwardation = near-term event risk (upcoming CPI, FOMC, earnings). The steeper the inversion, the more fear is priced near-term. After the event passes and IV crushes, the structure snaps back to contango — that crush can be violent in either direction. Watch for a sudden shift from contango to backwardation as an early warning of a vol spike.",
   },
 };
