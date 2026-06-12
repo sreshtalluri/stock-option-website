@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TopStrip } from '@/components/TopStrip';
 import { RightRail } from '@/components/RightRail';
 import { WatchlistBar } from '@/components/WatchlistBar';
@@ -15,6 +15,10 @@ const TABS: { id: View; label: string }[] = [
 export default function Home() {
   const [view, setView] = useState<View>('market');
   const [ticker, setTicker] = useState('SPY');
+  const mainScrollRef = useRef<HTMLDivElement>(null);
+
+  // Reset tab scroll to top whenever the active view changes
+  useEffect(() => { mainScrollRef.current && (mainScrollRef.current.scrollTop = 0); }, [view]);
 
   const selectTicker = (s: string) => { setTicker(s.toUpperCase()); setView('ticker'); };
 
@@ -34,7 +38,7 @@ export default function Home() {
               Educational tool · options data ~15-min delayed · not financial advice
             </span>
           </nav>
-          <div className="flex-1 min-h-0 overflow-y-auto flex flex-col">
+          <div ref={mainScrollRef} className="flex-1 min-h-0 overflow-y-auto flex flex-col">
             {view === 'market' && <MarketView onSelectTicker={selectTicker} />}
             {view === 'gex' && <GexView />}
             {view === 'ticker' && <TickerView symbol={ticker} />}

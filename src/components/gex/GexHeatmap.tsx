@@ -44,10 +44,17 @@ const VEX_GUIDE = [
 export function GexHeatmap({ profile }: { profile: GexProfile }) {
   const [mode, setMode] = useState<Mode>('gex');
   const [showGuide, setShowGuide] = useState(false);
+  const tableContainerRef = useRef<HTMLDivElement>(null);
   const spotRowRef = useRef<HTMLTableRowElement>(null);
 
+  // Scroll only this panel's scroll container; does not touch page scroll
   useEffect(() => {
-    spotRowRef.current?.scrollIntoView({ block: 'center', behavior: 'instant' });
+    const container = tableContainerRef.current;
+    const row = spotRowRef.current;
+    if (!container || !row) return;
+    const rr = row.getBoundingClientRect();
+    const cr = container.getBoundingClientRect();
+    container.scrollTop += rr.top - cr.top - cr.height / 2 + rr.height / 2;
   }, [profile.symbol, profile.spot, mode]);
 
   const hm = mode === 'gex' ? profile.heatmap : profile.vexHeatmap;
@@ -125,7 +132,7 @@ export function GexHeatmap({ profile }: { profile: GexProfile }) {
       )}
 
       {/* table */}
-      <div className="overflow-auto max-h-[460px] rounded-md border border-border">
+      <div ref={tableContainerRef} className="overflow-auto max-h-[460px] rounded-md border border-border">
         <table className="text-[11px] tabular w-full border-collapse" style={{ minWidth: `${expiries.length * 90 + 70}px` }}>
           <thead className="sticky top-0 z-10 bg-panel">
             <tr>

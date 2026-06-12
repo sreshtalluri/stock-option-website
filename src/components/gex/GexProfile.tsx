@@ -4,11 +4,17 @@ import type { GexProfile as Profile } from '@/lib/types';
 import { fmtMoney } from '@/lib/format';
 
 export function GexProfileChart({ profile }: { profile: Profile }) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const spotRef = useRef<HTMLDivElement>(null);
 
-  // Scroll the spot row to the center of the container whenever the profile changes
+  // Scroll only this panel's container so spot row is centered; does not touch page scroll
   useEffect(() => {
-    spotRef.current?.scrollIntoView({ block: 'center', behavior: 'instant' });
+    const container = containerRef.current;
+    const row = spotRef.current;
+    if (!container || !row) return;
+    const rr = row.getBoundingClientRect();
+    const cr = container.getBoundingClientRect();
+    container.scrollTop += rr.top - cr.top - cr.height / 2 + rr.height / 2;
   }, [profile.symbol, profile.spot]);
 
   const all = [...profile.byStrike].sort((a, b) => b.strike - a.strike);
@@ -25,7 +31,7 @@ export function GexProfileChart({ profile }: { profile: Profile }) {
     r.strike === profile.callWall || r.strike === profile.putWall);
 
   return (
-    <div className="space-y-px max-h-[520px] overflow-y-auto">
+    <div ref={containerRef} className="space-y-px max-h-[520px] overflow-y-auto">
       {rows.map(r => {
         const pct = Math.abs(r.netGex) / max * 50; // % of half-width
         const pos = r.netGex >= 0;
