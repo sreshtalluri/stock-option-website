@@ -7,6 +7,8 @@ import { GexProfileChart } from '@/components/gex/GexProfile';
 import { GexHeatmap } from '@/components/gex/GexHeatmap';
 import { LevelsTable } from '@/components/gex/LevelsTable';
 import { GexSparkline } from '@/components/gex/GexSparkline';
+import { DexChart } from '@/components/gex/DexChart';
+import { IvTermStructure } from '@/components/gex/IvTermStructure';
 
 const PRESETS = ['SPY', 'QQQ', 'SPX', 'IWM'];
 
@@ -38,13 +40,24 @@ export function GexView() {
 
       {profile && (
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-3">
+          {/* row 1: profile chart (wide) + levels + history */}
           <Panel title={<>Net GEX by strike — {symbol}<InfoTip metric="gex" /></>} className="xl:col-span-2 xl:row-span-2">
             <GexProfileChart profile={profile} />
           </Panel>
           <Panel title="Key levels"><LevelsTable profile={profile} /></Panel>
           <Panel title="GEX history"><GexSparkline snapshots={history.data ?? []} /></Panel>
+
+          {/* row 2: heatmap full-width */}
           <Panel title={<>Strike × expiry heatmap<InfoTip metric="oi" /></>} className="xl:col-span-3">
             <GexHeatmap profile={profile} />
+          </Panel>
+
+          {/* row 3: DEX + IV term structure */}
+          <Panel title={<>DEX — Dealer Delta Exposure<InfoTip metric="gex" /></>} className="xl:col-span-2">
+            <DexChart profile={profile} />
+          </Panel>
+          <Panel title="IV Term Structure">
+            <IvTermStructure profile={profile} />
           </Panel>
         </div>
       )}

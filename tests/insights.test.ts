@@ -4,7 +4,10 @@ import type { GexProfile, OptionsChain } from '@/lib/types';
 
 const profile: GexProfile = {
   symbol: 'SPY', spot: 600, asOf: '', totalGex: 2_000_000_000, flipPoint: 595,
-  callWall: 605, putWall: 580, byStrike: [], heatmap: { expiries: [], strikes: [], values: [] },
+  callWall: 605, putWall: 580, byStrike: [],
+  heatmap: { expiries: [], strikes: [], values: [] },
+  vexHeatmap: { expiries: [], strikes: [], values: [] },
+  dex: [], ivTermStructure: [],
 };
 
 describe('gammaRegime', () => {

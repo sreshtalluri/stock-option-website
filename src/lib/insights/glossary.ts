@@ -61,4 +61,19 @@ export const GLOSSARY: Record<string, GlossaryEntry> = {
     short: 'How differently the 11 S&P sectors are performing today.',
     why: 'Wide spread = rotation day (stock-picking matters); narrow spread = correlated tape (index direction dominates).',
   },
+  vex: {
+    term: 'VEX — Vanna Exposure',
+    short: "Dollar change in dealers' delta hedge for a 1-point move in implied volatility. Green = dealers buy when vol drops; purple = dealers sell when vol drops.",
+    why: "When VIX spikes, dealers must re-hedge their vanna exposure. A large negative VEX below spot means a vol-crush rip is loaded — the vol drop forces dealers to buy the underlying, pushing price up.",
+  },
+  dex: {
+    term: 'DEX — Dealer Delta Exposure',
+    short: "Net dealer delta (directional exposure) at each strike. Blue = dealers net long delta (will sell into rallies); orange = dealers net short delta (will buy dips).",
+    why: "Large dealer delta imbalances create mechanical buy/sell flows as price moves. It tells you where natural support and resistance exist from pure hedging mechanics, not sentiment.",
+  },
+  ivTerm: {
+    term: 'IV Term Structure',
+    short: "ATM implied volatility plotted across expiry dates — showing whether near-term options are pricing more or less fear than longer-dated ones.",
+    why: "Backwardation (near IV > far IV) = stress, event risk, or earnings nearby. Contango (normal upward slope) = calm tape. A sudden shift to backwardation often precedes big moves.",
+  },
 };
